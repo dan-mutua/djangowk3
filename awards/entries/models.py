@@ -12,4 +12,7 @@ class Entry(models.Model):
   class Meta:
     verbose_name_plural="entries"
 
+  def __str__(self):
+    return f'{self.entry_tittle}'  
+
 
