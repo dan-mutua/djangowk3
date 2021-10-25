@@ -5,4 +5,4 @@ from .models import Entry
 # Create your views here.
 class HomeView(ListView):
   model= Entry
-  template_name='entries/index.html'
+  template_name='entries/home.html'
