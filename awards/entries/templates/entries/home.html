@@ -19,7 +19,7 @@
           <div class="card mb-4 mt-4">
             <div class="card-body">
               <h3 class="card-title">{{entry.entry_title}}</h3>
-              <p class="card-text">{{entry.entry_text}}</p>
+              <p class="card-text">{{entry.entry_text| truncatechars:70  }}</p>
               <a href="#" class="btn btn-primary btn-sm">read more</a>
 
             </div>
