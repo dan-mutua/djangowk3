@@ -14,6 +14,24 @@
                 </div>
             </div>
         </header>
+        <div class="col-md-8">
+          {% for entry in blog_entries %}
+          <div class="card mb-4 mt-4">
+            <div class="card-body">
+              <h3 class="card-title">{{entry.entry_title}}</h3>
+              <p class="card-text">{{entry.entry_text}}</p>
+              <a href="#" class="btn btn-primary btn-sm">read more</a>
+
+            </div>
+            <div class="card-footer text-muted">
+              {{entry.entry_date}}
+              <span class="text-info mr-2">{{entry.entry_author}}</span>
+            
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
         <!-- About-->
         
        
