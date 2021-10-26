@@ -20,11 +20,11 @@
             <div class="card-body">
               <h3 class="card-title">{{entry.entry_title}}</h3>
               <p class="card-text">{{entry.entry_text| truncatechars:70  }}</p>
-              <a href="#" class="btn btn-primary btn-sm">read more</a>
+              <a href="{% url 'entrydetail' %}" class="btn btn-primary btn-sm">read more</a>
 
             </div>
             <div class="card-footer text-muted">
-              {{entry.entry_date}}
+              {{entry.entry_date | time}}
               <span class="text-info mr-2">by: {{entry.entry_author}}</span>
             
             </div>
