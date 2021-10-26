@@ -1,0 +1,16 @@
+ 
+{% content block %} 
+ <div class="card mb-4 mt-4">
+            <div class="card-body">
+              <h3 class="card-title">{{object.entry_title}}</h3>
+              <p class="card-text">{{object.entry_text }}</p>
+              
+            </div>
+            <div class="card-footer text-muted">
+              {{object.entry_date | time}}
+              <span class="text-info mr-2">by: {{object.entry_author}}</span>
+            
+            </div>
+
+  </div>
+{% endblock %}  
