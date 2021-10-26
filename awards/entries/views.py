@@ -16,3 +16,7 @@ class CreateEntry(CreateView):
   model = Entry
   template_name= 'entries/create_entry.html'  
   fields=['entry_title','entry_text']
+
+  def form_valid(self,form):
+    form.instance.entry_author = self.request.user
+    return super().form_valid(form)
