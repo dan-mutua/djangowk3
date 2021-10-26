@@ -1,5 +1,14 @@
 from django.shortcuts import render
+from .forms import RegistrationForm
 
 # Create your views here.
 def register(request):
-  return render(request,'auth/register.html')
+  if request.method == 'POST':
+    form=RegistrationForm(request.POST)
+    if form.is_valid():
+      form.save()
+  else:
+    form=RegistrationForm()    
+  
+  context={'form':form}
+  return render(request,'auth/register.html', context)
