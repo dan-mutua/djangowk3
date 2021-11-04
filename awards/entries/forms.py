@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Entry, UserProfile
+from .models import Entry, UserProfile,Comment
 
 
 #This will create the news letter
@@ -14,7 +14,15 @@ class RegistrationForm(UserCreationForm):
 
 
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields= ('name','body')
 
+        widgets={
+            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'body': forms.Textarea(attrs={'class':'form-control'})
+        }
 
 
 class UserProfileUpdateForm(forms.ModelForm):

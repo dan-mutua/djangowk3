@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 
 from myusers.forms import RegistrationForm
-from .forms import     UserProfileUpdateForm, UserProjectForm
+from .forms import     UserProfileUpdateForm, UserProjectForm,CommentForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Comment,Entry
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -84,8 +84,11 @@ def EditProfile(request):
 class AddComment(CreateView):
     model=Comment
     template_name='entries/addcomment.html'
-    fields='__all__'
-    
+    form_class=CommentForm
+    def form_valid(self, form):
+        form.instance.entry_id=self.kwargs['pk']
+        return super().form_valid(form)
+    success_url = reverse_lazy('landingpage')
 
 
 

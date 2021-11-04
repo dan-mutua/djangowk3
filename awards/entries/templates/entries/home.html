@@ -14,7 +14,7 @@
                 </div>
             </div>
         </header>
-        <div class="col-md-8">
+        <div class="col-md-8 container">
           {% for entry in posts %}
           <div class="card mb-4 mt-4" style="width: 350px; height:fit-content">
             <div class="card-body">
@@ -29,7 +29,7 @@
               {% else %} 
               <a href="{% url 'comment' entry.pk %}">Add comment</a>
                 {% for comment in entry.comments.all%}
-                {{ comment.name}}-{{ comment.date_added }}
+                <strong>{{ comment.name}} - {{ comment.date_added }}</strong>
                 <hr>
                 {{ comment.body }}
                 {% endfor %}

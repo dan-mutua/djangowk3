@@ -4,7 +4,7 @@
 {% block content %}
   <h3>add comment....</h3>
   <hr>
-  <div class="form-group">
+  <div class="form-group form-control " >
     <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
