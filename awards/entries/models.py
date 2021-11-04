@@ -2,51 +2,28 @@ from django.db import models
 from datetime import datetime 
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404,render,HttpResponseRedirect
 from cloudinary.models import CloudinaryField
 from django.db.models.signals import post_save
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_save
 
 
 
-class Subscriber(models.Model):
-    name = models.CharField(max_length=30)
-    email = models.EmailField()
-    def __str__(self):
-        return self.name
-class Location(models.Model):
-    location=models.CharField(max_length=30)
 
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.location
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,)
-    comment = models.TextField(null=True)
-    date = models.DateField(auto_now_add=True, null=True)
     entry= models.ForeignKey('Entry', related_name="comments", on_delete=models.CASCADE, null=True,)
+    name = models.CharField(max_length=200,null=True)
+    body= models.TextField(null=True)
+    date_added=models.DateTimeField(auto_now_add=True,null=True)
 
 
-    objects = models.Manager()
 
-    class Meta:
-        ordering = ("date",)
+    ()
+
 
     def __str__(self):
-        return self.user.username
-    def get_absolute_url(self):
-        return reverse('addcomment')
-
-    @classmethod
-    def show_projects(cls):
-        comments = cls.objects.all()
-        return comments
-    def savecomment(self):
-        self.save()
+        return '%s-%s' % (self.post.title,self.name)
+  
 
 GENDER_CHOICES = (
    ('M', 'Male'),

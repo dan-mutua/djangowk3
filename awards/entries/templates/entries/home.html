@@ -22,17 +22,32 @@
               <p class="card-text">{{ entry.name}}</p>
               <img src="{{entry.userpic.url}}" style="width: 300px; height: 150px">
               <p class="card-text">{{entry.description }}</p>
-              
-
             </div>
+              <h4>Comment</h4>
+              {% if not entry.comments.all %}
+                 No comment yet <a href="#">comment</a>
+              {% else %} 
+                {% for comment in entry.comments.all%}
+                {{ comment.name}}-{{ comment.date_added }}
+                <hr>
+                {{ comment.body }}
+                {% endfor %}
+              
+              {% endif %}
+
+            </div
+
+
+            
             <div class="card-footer text-muted">
               {{entry.entry_date | time}}
               <span class="text-info mr-2">{{entry.likes}} {{entry.likescount}} by: {{entry.user}}</span>
             
             </div>
-
+            
           </div>
           {% endfor %}
+          >
         </div>
         <!-- About-->
         

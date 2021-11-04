@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 
 from myusers.forms import RegistrationForm
-from .forms import   CommentsForm,  UserProfileUpdateForm, UserProjectForm
+from .forms import     UserProfileUpdateForm, UserProjectForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import *
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -80,43 +80,7 @@ def EditProfile(request):
         'pform':pform,
     }
     return render(request, 'profileedit.html', context)
-class FindProjectView(DetailView):
-    model = Entry
-    template_name = 'projectfound.html'
-    slug_field = "slug"
 
-    form = CommentsForm
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def project(self, request, *args, **kwargs):
-        form = CommentsForm(request.POST)
-        if form.is_valid():
-            project = self.get_object()
-            form.instance.user = request.user
-            form.instance.project = project
-            form.save()
-
-            return redirect(reverse('project', kwargs={"form":form, 'slug':project.slug}))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = self.form
-        return context
-    
-    def get_context_data(self, **kwargs):
-        post_comments_count = Comment.objects.all().filter(comment=self.object.id).count()
-        post_comments = Comment.objects.all().filter(comment=self.object.id)
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'form': self.form,
-            'post_comments': post_comments,
-            'post_comments_count': post_comments_count,
-        })
-        return context
-    
 
 
 
@@ -135,15 +99,8 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
 
     def projectpost(self, request, *args, **kwargs):
         form = UserProjectForm(request.POST)
-        c_form = CommentsForm(request.POST)
-        if form.is_valid() and c_form.is_valid():
-            project = self.get_object()
-            form.instance.user = request.user
-            form.instance.project = project
-            form.save()
-
-            return redirect(reverse("project", kwargs={"projectform":form,"cform":c_form, 'pk':project.id}))
-
+        
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = self.form
@@ -151,40 +108,10 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('index')
 
-class DeleteProject(LoginRequiredMixin, DeleteView):
-    model = Entry
-    template_name='delete.html'
-    success_url = reverse_lazy('index')
 
 
-    def get_queryset(self):
-        
-        return Entry.objects.all()
 
 
-class AddCommentView(LoginRequiredMixin, CreateView):
-    model = Comment
-    form_class = CommentsForm
-    template_name = 'addcomment.html'
-
-
-def CommentPost(request, pk):
-    project = get_object_or_404(Entry)
-    comments = project.comments.filter(id = pk)
-    comment = None
-
-    if request.method == 'POST':
-        form = CommentsForm(request.POST)
-        if form.is_valid():
-            comment= form.save(commit=False)
-            comment.user = request.user
-            comment.project = project
-            comment.save()
-            return redirect('index')
-
-    else:
-        form = CommentsForm()
-    return render(request, 'addcomment.html', {'comments':comment, 'comments': comments, 'form':form, 'project':project, 'id':pk})
 
 def LikeView(request, pk):
     project = get_object_or_404(Entry, id=request.POST.get('likeid'))
