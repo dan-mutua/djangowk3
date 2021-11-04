@@ -25,8 +25,9 @@
             </div>
               <h4>Comment</h4>
               {% if not entry.comments.all %}
-                 No comment yet <a href="#">comment</a>
+                 No comment yet <a href="{% url 'comment' entry.pk %}">comment</a>
               {% else %} 
+              <a href="{% url 'comment' entry.pk %}">Add comment</a>
                 {% for comment in entry.comments.all%}
                 {{ comment.name}}-{{ comment.date_added }}
                 <hr>

@@ -6,12 +6,12 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from .views import  CreateProjectView
+from .views import  CreateProjectView, AddComment
 
 
 urlpatterns=[
     path('', views.userhome, name='landingpage'),
-    path("index/", views.userhome, name='index'),
+    path("post/<int:pk>", views.userhome, name='index'),
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'),name='logout'),
@@ -19,6 +19,7 @@ urlpatterns=[
     path ('profile/update/', views.EditProfile, name="update"),
     path ('entry/new/', CreateProjectView.as_view(), name="newerpost"),
     path('like/<int:pk>/', views.LikeView, name="likeproject"),
+    path('post/<int:pk>/comment',AddComment.as_view(),name="comment")
 ]
 
 

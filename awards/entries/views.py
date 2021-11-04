@@ -10,10 +10,10 @@ from django.contrib.auth import login, authenticate, logout
 from myusers.forms import RegistrationForm
 from .forms import     UserProfileUpdateForm, UserProjectForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import *
+from .models import Comment,Entry
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse, reverse_lazy
-from django.views.generic import DetailView, FormView,UpdateView, CreateView, DeleteView
+from django.views.generic import  CreateView
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -81,7 +81,11 @@ def EditProfile(request):
     }
     return render(request, 'profileedit.html', context)
 
-
+class AddComment(CreateView):
+    model=Comment
+    template_name='entries/addcomment.html'
+    fields='__all__'
+    
 
 
 

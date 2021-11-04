@@ -1,30 +1,15 @@
-{% extends 'base.html'%}
+{% extends 'entries/base.html'%}
 
+{% block title %} comment {% endblock %}
 {% block content %}
-  <div class="container" >
-    <div  class="my-2" style="position:relative">
-      <div class="col-sm-12 card">
-        <div class="vh-100 d-flex flex-column align-items-center justify-content-center my-5 mx-auto col-sm-7">
-          {% with comments.count as totalcomments %}
-          <h2>{{totalcomments}} comment {{ totalcomments|pluralize }}</h2>
-          {% endwith %}
-          {% for comment in comments %}
-          Comment {{ forloop.counter }} by {{ comment.user }} on {{comment.date}}
-          {{ comment.comment|linebreaks}}
-          {% empty %}
-          <p>There are no comments for this project</p>
-          {% endfor %}
-          <h1>Create Post</h1>
-          <form  action="{%url 'addcomment' project.id%}" method="POST" enctype="multipart/form-data">
-            {%csrf_token%}
-          
-            {% bootstrap_form form %}
-
-            <input type="submit" class="btn btn-success btn-lg" value="Post">
-          </form>
-        </div>
-      </div>
-    </div>
+  <h3>add comment....</h3>
+  <hr>
+  <div class="form-group">
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-info">add comment</button>
+    </form>
   </div>
 
 {%endblock%}
