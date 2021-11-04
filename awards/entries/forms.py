@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Project, Subscriber , Comment, UserProfile
+from .models import Entry, Entry, Subscriber , Comment, UserProfile
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'placeholder': 'Enter your email'}))
@@ -55,5 +55,5 @@ class UserProfileUpdateForm(forms.ModelForm):
 
 class UserProjectForm(forms.ModelForm):
     class Meta:
-        model=Project
+        model=Entry
         fields = ['userpic','title', 'description', 'livelink']

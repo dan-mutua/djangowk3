@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .forms import SignUpForm, NewsLetterForm, CommentsForm,  UserProfileUpdateForm, UserProjectForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import  Location, UserProfile, Subscriber, Project,Comment
+from .models import *
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, FormView,UpdateView, CreateView, DeleteView
@@ -22,17 +22,17 @@ def landing(request):
             user=form.save()
             login(request, user)
             messages.success(request, "Registration successfull")
-            return redirect("cloneapp:index.html")
+            return redirect("home.html")
         messages.error(request, "Unsuccessful registration. Invalid Information")
     form = SignUpForm()
-    return render(request, 'landing.html', context={"signup_form":form})
+    return render(request, 'entries/home.html', context={"signup_form":form})
 
 
 @login_required(login_url='/emaillogin/')
 def  userhome(request, **kwargs):
-    posts = Project.show_projects().order_by('-pub_date')
+    posts =Entry.show_projects().order_by('-pub_date')
     # id = int(request.POST.get('projectid'))
-    likey= get_object_or_404(Project)
+    likey= get_object_or_404(Entry)
     totallikes= likey.totallikes()
     # alllikes = likey.likes.filter(id = id)
     if request.method == 'POST':
@@ -50,52 +50,9 @@ def  userhome(request, **kwargs):
     else:
         form =NewsLetterForm()
         c_form = CommentsForm(request.POST)
-    return render(request, 'index.html', {"posts":posts, "NLform":form, 'form':c_form, 'totallikes':totallikes})
+    return render(request, 'entries/home.html', {"posts":posts, "NLform":form, 'form':c_form, 'totallikes':totallikes})
 
-
-def signup(request):
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        # form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # login(request, user)
-            user= form.cleaned_data.get('username')
-            messages.success(request, f"Registration successfull {user}")
-            return redirect('emaillogin')
-        else:
-            messages.error(request, "Unsuccessful registration. Invalid Information")
-            return render(request, "registration/registration_form.html", {"signup_form":form})
-    else:
-        form = SignUpForm()
-        return render(request, "registration/registration_form.html",{"signup_form":form})
-
-def userlogin(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username=form.cleaned_data.get('username')
-            password=form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect('index')
-            else:
-                messages.error(request, "Invalid username or password")
-                return render(request, 'registration/registration_form.html')
-
-        else:
-            messages.error(request, "Invalid username or password")
-    form = AuthenticationForm()
-    return render(request, "registration/login.html",{"emaillogin_form":form})
-
-def userlogout(request):
-    logout(request)
-    return HttpResponseRedirect('/landingpage/')
-
-
-
+  
 def UserProfile(request):
     profileform = UserProfileUpdateForm(instance=request.user.userprofile)
     if request.method == 'POST':
@@ -141,7 +98,7 @@ def EditProfile(request):
     }
     return render(request, 'profileedit.html', context)
 class FindProjectView(DetailView):
-    model = Project
+    model = Entry
     template_name = 'projectfound.html'
     slug_field = "slug"
 
@@ -182,7 +139,7 @@ class FindProjectView(DetailView):
 
 
 class CreateProjectView(LoginRequiredMixin, CreateView):
-    model = Project
+    model = Entry
     template_name = 'createpost.html'
     slug_field = "slug"
     fields =['userpic', 'title', 'description','livelink']
@@ -212,14 +169,14 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
         return reverse('index')
 
 class DeleteProject(LoginRequiredMixin, DeleteView):
-    model = Project
+    model = Entry
     template_name='delete.html'
     success_url = reverse_lazy('index')
 
 
     def get_queryset(self):
         
-        return Project.objects.all()
+        return Entry.objects.all()
 
 
 class AddCommentView(LoginRequiredMixin, CreateView):
@@ -229,7 +186,7 @@ class AddCommentView(LoginRequiredMixin, CreateView):
 
 
 def CommentPost(request, pk):
-    project = get_object_or_404(Project)
+    project = get_object_or_404(Entry)
     comments = project.comments.filter(id = pk)
     comment = None
 
@@ -247,6 +204,6 @@ def CommentPost(request, pk):
     return render(request, 'addcomment.html', {'comments':comment, 'comments': comments, 'form':form, 'project':project, 'id':pk})
 
 def LikeView(request, pk):
-    project = get_object_or_404(Project, id=request.POST.get('likeid'))
+    project = get_object_or_404(Entry, id=request.POST.get('likeid'))
     project.likes.add(request.user)
     return HttpResponseRedirect(reverse('index'), id=pk)

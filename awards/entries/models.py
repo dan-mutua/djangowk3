@@ -1,18 +1,13 @@
 from django.db import models
-import datetime as dt
 from datetime import datetime 
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.db.models.deletion import CASCADE
 from django.shortcuts import get_object_or_404,render,HttpResponseRedirect
 from cloudinary.models import CloudinaryField
-from django.contrib import auth
-from django.utils.text import slugify 
-from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 
 
 class Subscriber(models.Model):
@@ -33,7 +28,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,)
     comment = models.TextField(null=True)
     date = models.DateField(auto_now_add=True, null=True)
-    project = models.ForeignKey('Project', related_name="comments", on_delete=models.CASCADE, null=True,)
+    entry= models.ForeignKey('Entry', related_name="comments", on_delete=models.CASCADE, null=True,)
 
 
     objects = models.Manager()
@@ -82,14 +77,14 @@ class UserProfile(models.Model):
         return uprofile
 
 
-class Project(models.Model):
+class Entry(models.Model):
     title = models.CharField(null=True, max_length=255)
     name = models.CharField(null=True, max_length=255)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     userpic = CloudinaryField('image')
     description = models.CharField(blank=True,max_length=255)
     livelink = models.URLField()
-    pub_date = models.DateTimeField(auto_now_add=True, null=True)
+    entry_date = models.DateTimeField(auto_now_add=True, null=True)
     likes = models.ManyToManyField(User, related_name="projectlikes")
     likecount = models.BigIntegerField(default='0')
 
@@ -104,24 +99,24 @@ class Project(models.Model):
 
     @classmethod
     def show_projects(cls):
-        projects = cls.objects.all()
-        return projects
+        entriess = cls.objects.all()
+        return entriess
 
 
     @classmethod
     def getprojectbyid(cls, id):
-        projects = cls.objects.filter(id=id)
-        return projects
+        entriess = cls.objects.filter(id=id)
+        return entriess
 
     @classmethod
     def getprojectbytitle(cls, searchtitle):
-        getproject = cls.objects.filter(title=searchtitle)
-        return getproject
+        getentry= cls.objects.filter(title=searchtitle)
+        return getentry
 
 class ProjectRating(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, null=True)
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField()
 
 
