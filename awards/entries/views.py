@@ -6,7 +6,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from .forms import SignUpForm, NewsLetterForm, CommentsForm,  UserProfileUpdateForm, UserProjectForm
+
+from myusers.forms import RegistrationForm
+from .forms import   CommentsForm,  UserProfileUpdateForm, UserProjectForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import *
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -15,20 +17,19 @@ from django.views.generic import DetailView, FormView,UpdateView, CreateView, De
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-# def landing(request):
-#     if request.method == "POST":
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             user=form.save()
-#             login(request, user)
-#             messages.success(request, "Registration successfull")
-#             return redirect("home.html")
-#         messages.error(request, "Unsuccessful registration. Invalid Information")
-#     form = SignUpForm()
-#     return render(request, 'entries/home.html', context={"signup_form":form})
 
+def register(request):
+  if request.method == 'POST':
+    form=RegistrationForm(request.POST)
+    if form.is_valid():
+      form.save()
+  else:
+    form=RegistrationForm()    
+  
+  context={'form':form}
+  return render(request,'entries/register.html', context)
 
-@login_required(login_url='/myusers/login/')
+@login_required(login_url='/entries/login/')
 def  userhome(request, **kwargs):
     posts =Entry.show_projects().order_by('-entry_date')
     

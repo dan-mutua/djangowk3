@@ -12,6 +12,9 @@ from .views import AddCommentView, DeleteProject, FindProjectView, CreateProject
 urlpatterns=[
     path('', views.userhome, name='landingpage'),
     path("index/", views.userhome, name='index'),
+    path('register/', views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'),name='logout'),
     path('profile/', views.UserProfile, name='profile' ),
     path ('profile/update/', views.EditProfile, name="update"),
     path ('entry/new/', CreateProjectView.as_view(), name="newerpost"),
