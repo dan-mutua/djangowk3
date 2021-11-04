@@ -15,20 +15,20 @@ from django.views.generic import DetailView, FormView,UpdateView, CreateView, De
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-def landing(request):
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user=form.save()
-            login(request, user)
-            messages.success(request, "Registration successfull")
-            return redirect("home.html")
-        messages.error(request, "Unsuccessful registration. Invalid Information")
-    form = SignUpForm()
-    return render(request, 'entries/home.html', context={"signup_form":form})
+# def landing(request):
+#     if request.method == "POST":
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             user=form.save()
+#             login(request, user)
+#             messages.success(request, "Registration successfull")
+#             return redirect("home.html")
+#         messages.error(request, "Unsuccessful registration. Invalid Information")
+#     form = SignUpForm()
+#     return render(request, 'entries/home.html', context={"signup_form":form})
 
 
-@login_required(login_url='/emaillogin/')
+@login_required(login_url='/myusers/login/')
 def  userhome(request, **kwargs):
     posts =Entry.show_projects().order_by('-pub_date')
     # id = int(request.POST.get('projectid'))

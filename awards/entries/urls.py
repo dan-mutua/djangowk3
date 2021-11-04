@@ -10,7 +10,7 @@ from .views import AddCommentView, DeleteProject, FindProjectView, CreateProject
 
 
 urlpatterns=[
-    url(r'^$', views.landing, name='landingpage'),
+    path('', views.userhome, name='landingpage'),
     path("index/", views.userhome, name='index'),
     path('profile/', views.UserProfile, name='profile' ),
     path ('profile/update/', views.EditProfile, name="update"),
