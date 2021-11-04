@@ -30,27 +30,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 @login_required(login_url='/myusers/login/')
 def  userhome(request, **kwargs):
-    posts =Entry.show_projects().order_by('-pub_date')
-    # id = int(request.POST.get('projectid'))
-    likey= get_object_or_404(Entry)
-    totallikes= likey.totallikes()
-    # alllikes = likey.likes.filter(id = id)
-    if request.method == 'POST':
-        form = NewsLetterForm(request.POST)
-        c_form = CommentsForm(request.POST)
-        if form.is_valid() and c_form.is_valid():
-            name=form.cleaned_data['your_name']
-            email=form.cleaned_data['email']
-            recipient = Subscriber(name=name, email=email)
-            recipient.save()
-            # -------------------------
-            comment=c_form.cleaned_data['comment']
-            c_form.save()
-            HttpResponseRedirect('userhome')
-    else:
-        form =NewsLetterForm()
-        c_form = CommentsForm(request.POST)
-    return render(request, 'entries/home.html', {"posts":posts, "NLform":form, 'form':c_form, 'totallikes':totallikes})
+    posts =Entry.show_projects().order_by('-entry_date')
+    
+    return render(request, 'entries/home.html', {"posts":posts})
 
   
 def UserProfile(request):

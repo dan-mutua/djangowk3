@@ -15,14 +15,14 @@
             </div>
         </header>
         <div class="col-md-8">
-          {% for entry in blog_entries %}
-          <div class="card mb-4 mt-4">
+          {% for entry in posts %}
+          <div class="card mb-4 mt-4" style="width: 350px; height:fit-content">
             <div class="card-body">
               <h3 class="card-title">{{entry.entry_title}}</h3>
               <p class="card-text">{{ entry.name}}</p>
-              <img src="{{entry.userpic}}">
-              <p class="card-text">{{entry.description| truncatechars:70  }}</p>
-              <a href="{% url 'entrydetail' entry.pk %}" class="btn btn-primary btn-sm">read more</a>
+              <img src="{{entry.userpic.url}}" style="width: 300px; height: 150px">
+              <p class="card-text">{{entry.description }}</p>
+              
 
             </div>
             <div class="card-footer text-muted">
