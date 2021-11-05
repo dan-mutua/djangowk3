@@ -27,6 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+SECRET_KEY = 'django-insecure-%_17%c=e+51v2@l8qtvhf#x9gn%&5=tf_n13+wxwnke$h0kzu!'
 
 
 # setup cloudinary credentials for django-cloudinary
