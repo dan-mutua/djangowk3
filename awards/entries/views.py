@@ -27,7 +27,7 @@ def register(request):
     form=RegistrationForm()    
   
   context={'form':form}
-  return render(request,'entries/register.html', context)
+  return render(request,'entries/login.html', context)
 
 @login_required(login_url='/entries/login/')
 def  userhome(request, **kwargs):
