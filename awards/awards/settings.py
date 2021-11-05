@@ -40,7 +40,7 @@ cloudinary.config(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 MODE=config("MODE", default="dev")
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY='django-insecure-%_17%c=e+51v2@l8qtvhf#x9gn%&5=tf_n13+wxwnke$h0kzu!' 
 DEBUG = os.environ.get('DEBUG', True)
 # development
 if config('MODE')=="dev":
