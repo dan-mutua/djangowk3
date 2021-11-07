@@ -1,0 +1,22 @@
+{% extends 'entries/base.html' %}
+
+{%  block  content %} 
+
+
+ <div class="card mb-4 mt-4">
+            <div class="card-header">
+             <p>Edit Profile </p>
+              
+            </div>
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              {{form.as_p}}
+              <button type="submit" class="btn btn-success">Edit</button>
+            </form>
+          </div>
+            
+            </div>
+
+  </div>
+{% endblock %} 

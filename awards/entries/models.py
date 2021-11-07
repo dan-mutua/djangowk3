@@ -25,33 +25,9 @@ class Comment(models.Model):
         return '%s-%s' % (self.entry.title,self.name)
   
 
-GENDER_CHOICES = (
-   ('M', 'Male'),
-   ('F', 'Female'),
-   ('O', 'Other')
-)
 
 
-class UserProfile(models.Model):
-    title= models.CharField(null=True, max_length=255)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    email = models.CharField(null=True, max_length=255)
-    phonenumber = models.IntegerField(null=True)
-    bio = models.CharField(blank=True,max_length=255)
-    userpic = CloudinaryField('image')
-    gender = models.CharField(max_length=11, choices=GENDER_CHOICES, default='Male')
 
-    def __str__(self):
-        return self.user.username
-
-    def save(self):
-        super().save()
-
-
-    @classmethod
-    def getProfileByName(cls, username):
-        uprofile = cls.objects.filter(username=username)
-        return uprofile
 
 
 class Entry(models.Model):

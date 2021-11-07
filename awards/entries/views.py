@@ -36,50 +36,7 @@ def  userhome(request, **kwargs):
     return render(request, 'entries/home.html', {"posts":posts})
 
   
-def UserProfile(request):
-    profileform = UserProfileUpdateForm(instance=request.user.userprofile)
-    if request.method == 'POST':
-        profileform=UserProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
 
-        if profileform.is_valid():
-            profileform.save(commit=False)
-
-            return redirect('cloneapp:profile')
-
-        else:
-            profileform = UserProfileUpdateForm(instance=request.user.userprofile)
-
-    context = {
-        'user': request.user,
-        'profileform': profileform
-    }
-    return render(request, 'profile.html', context)
-
-@login_required
-def EditProfile(request):
-    profileform = UserProfileUpdateForm(instance=request.user.userprofile)
-    pform = None
-    if request.method == 'POST':
-        profileform=UserProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
-
-        if profileform.is_valid():
-            pform=profileform.save(commit=False)
-            pform.user = request.user
-            pform.profile = profileform
-            pform.save()
-
-
-            return redirect('profile')
-
-        else:
-            profileform = UserProfileUpdateForm(instance=request.user.userprofile)
-
-    context = {
-        'user': request.user,
-        'profileform': profileform, 
-        'pform':pform,
-    }
-    return render(request, 'profileedit.html', context)
 
 class AddComment(CreateView):
     model=Comment
