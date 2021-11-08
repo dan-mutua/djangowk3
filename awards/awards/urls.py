@@ -20,4 +20,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('entries.urls')), 
     path('myusers/', include('django.contrib.auth.urls')), 
-    path('', include('myusers.urls')), ]
+    path('myusers/', include('myusers.urls')), ]

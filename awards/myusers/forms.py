@@ -24,4 +24,5 @@ class EditProfile(UserChangeForm):
 
   class Meta:
     model = User
-    fields=['username','email', 'image','bio']      
+    fields=['username','email','bio']      
+    

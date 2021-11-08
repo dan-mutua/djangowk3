@@ -3,9 +3,8 @@ from django.views import generic
 from django.views.generic import DetailView
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.urls import reverse_lazy
+from .models import Profile
 
-
-from entries.models import Profile
 
 # Create your views here.
 class UserCreationView(generic.CreateView):

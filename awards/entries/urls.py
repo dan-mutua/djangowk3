@@ -11,12 +11,10 @@ from .views import  CreateProjectView, AddComment
 
 urlpatterns=[
     path('', views.userhome, name='landingpage'),
-    path("entry/<int:pk>", views.userhome, name='index'),
-    path('register/', views.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='entries/login.html'), name='login'),
-    path('entry/logout/', auth_views.LogoutView.as_view(template_name='entries/logout.html'),name='logout'),
-    path('entry/profile/', views.UserProfile, name='profile' ),
-    path ('profile/update/', views.EditProfile, name="update"),
+        path('register/', views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
+    path('entry/logout/', auth_views.LogoutView.as_view(template_name='eauth/logout.html'),name='logout'),
+   
     path ('entry/new/', CreateProjectView.as_view(), name="newerpost"),
     path('like/<int:pk>/', views.LikeView, name="likeproject"),
     path('entry/<int:pk>/comment',AddComment.as_view(),name="comment")

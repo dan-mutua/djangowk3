@@ -1,21 +1,12 @@
-
-  
-from django.db.models.base import Model
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render,  get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
-
 from myusers.forms import RegistrationForm
-from .forms import     UserProfileUpdateForm, UserProjectForm,CommentForm
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from .forms import   UserProjectForm,CommentForm
 from .models import Comment,Entry
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import  CreateView
-from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def register(request):
@@ -27,9 +18,9 @@ def register(request):
     form=RegistrationForm()    
   
   context={'form':form}
-  return render(request,'entries/login.html', context)
+  return render(request,'auth/login.html', context)
 
-@login_required(login_url='/entries/login/')
+# @login_required(login_url='/auth/login/')
 def  userhome(request, **kwargs):
     posts =Entry.show_projects().order_by('-entry_date')
     
@@ -70,7 +61,7 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
         context["form"] = self.form
         return context
     def get_success_url(self):
-        return reverse('index')
+        return reverse('landingpage')
 
 
 
@@ -80,4 +71,4 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
 def LikeView(request, pk):
     project = get_object_or_404(Entry, id=request.POST.get('likeid'))
     project.likes.add(request.user)
-    return HttpResponseRedirect(reverse('index'), id=pk)
+    return HttpResponseRedirect(reverse('landingpage'), id=pk)
